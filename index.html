@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Daylight Maze Adventure</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="uiOverlay">
+        <h1 id="title">MAZE ADVENTURE</h1>
+        <p>Click anywhere to Start</p>
+        <div class="controls-info">
+            <span><kbd>WASD</kbd> Move</span>
+            <span><kbd>SHIFT</kbd> Sprint</span>
+            <span><kbd>SPACE</kbd> Jump</span>
+            <span><kbd>MOUSE</kbd> Look</span>
+            <span><kbd>E</kbd> Interact</span>
+        </div>
+        <p style="font-size: 0.8rem; margin-top: 20px; color: #888;">(Headphones recommended for audio)</p>
+    </div>
+    
+    <div id="crosshair">+</div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+        <div id="hudStage">STAGE 1</div>
+        <div id="hudObjective">Find the exit and unlock the door.</div>
+    </div>
+
+    <!-- Enemy Compass / Direction Indicator -->
+    <div id="enemyCompass" class="hidden">
+        <div id="compassArrow">▲</div>
+        <div id="compassLabel">ENEMY</div>
+        <div id="compassDist">~50m</div>
+    </div>
+
+    <!-- NEW: Exit Distance Meter -->
+    <div id="exitMeter" class="hidden">
+        <div class="exit-title">EXIT</div>
+        <div id="exitDistance">-- m</div>
+        <div id="exitTrend">...</div>
+    </div>
+
+    <!-- Enemy Alert -->
+    <div id="enemyAlert" class="hidden"></div>
+
+    <!-- Hidden Status -->
+    <div id="hiddenStatus" class="hidden">🌿 HIDDEN</div>
+
+    <!-- Interaction Prompt -->
+    <div id="interactionPrompt" class="hidden">Press [E] to Interact</div>
+
+    <!-- Transition Overlay -->
+    <div id="transitionOverlay" class="hidden">
+        <h1 id="transitionTitle">STAGE CLEARED</h1>
+    </div>
+
+    <!-- Riddle Overlay -->
+    <div id="riddleOverlay" class="hidden">
+        <h2 id="riddleHeading">EXIT LOCKED</h2>
+        <p id="riddleSubheading">Something is preventing the door from opening...</p>
+        <p id="riddleTimer">Time left: 15s</p>
+        <p id="riddleText">Riddle goes here</p>
+        <div id="riddleInputContainer">
+            <!-- Dynamically populated by JS -->
+        </div>
+        <p id="riddleFeedback"></p>
+        <p class="warning-text">Hurry! The 💀 is approaching!</p>
+    </div>
+
+    <div id="gameOverOverlay" class="hidden">
+        <h2 id="endTitle">YOU WERE CAUGHT</h2>
+        <p id="endSubtitle">The maze remembers nothing.</p>
+        <button id="restartBtn">RESTART</button>
+    </div>
+
+    <!-- Scare Overlay (flash) -->
+    <div id="scareOverlay" class="hidden"></div>
+
+    <!-- Seed display -->
+    <div id="seedDisplay" class="hidden"></div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

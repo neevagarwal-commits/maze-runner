@@ -1,0 +1,383 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #87CEEB;
+    font-family: 'Outfit', sans-serif;
+    color: white;
+}
+
+#uiOverlay, #gameOverOverlay, #riddleOverlay, #transitionOverlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    transition: opacity 0.5s ease;
+}
+
+#transitionOverlay {
+    background: rgba(0, 0, 0, 1.0);
+    z-index: 20;
+}
+
+#scareOverlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 0, 0, 0.4);
+    z-index: 15;
+    pointer-events: none;
+    mix-blend-mode: color-burn;
+    animation: scareFlash 0.1s infinite;
+}
+@keyframes scareFlash {
+    0% { opacity: 0.8; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0.8; }
+}
+
+#transitionTitle {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    font-size: 5rem;
+    letter-spacing: 5px;
+}
+
+#riddleOverlay {
+    background: rgba(20, 30, 40, 0.95);
+}
+
+.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#crosshair {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    z-index: 5;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Controls info on start screen */
+.controls-info {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+.controls-info span {
+    font-size: 0.95rem;
+    color: #ccc;
+}
+.controls-info kbd {
+    background: #333;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    color: #fff;
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin-right: 4px;
+}
+
+/* HUD Styling */
+#hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px 25px;
+    border-radius: 10px;
+    border-left: 5px solid #ffaa00;
+    transition: opacity 0.3s;
+}
+#hudStage {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #ffaa00;
+    margin-bottom: 5px;
+}
+#hudObjective {
+    font-size: 1rem;
+    color: #fff;
+}
+
+/* =============== EXIT DISTANCE METER =============== */
+#exitMeter {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    z-index: 5;
+    background: rgba(10, 20, 30, 0.7);
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    text-align: right;
+    transition: opacity 0.3s;
+    min-width: 100px;
+}
+.exit-title {
+    color: #aaa;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 2px;
+}
+#exitDistance {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 2px;
+}
+#exitTrend {
+    font-size: 0.85rem;
+    color: #888;
+    font-weight: bold;
+}
+
+/* =============== ENEMY COMPASS =============== */
+#enemyCompass {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 5;
+    width: 90px;
+    height: 90px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(255, 50, 50, 0.4);
+    transition: opacity 0.3s, border-color 0.3s, background 0.3s;
+    pointer-events: none;
+}
+#enemyCompass.near {
+    border-color: rgba(255, 100, 0, 0.7);
+    background: rgba(60, 20, 0, 0.6);
+}
+#enemyCompass.danger {
+    border-color: rgba(255, 0, 0, 0.9);
+    background: rgba(80, 0, 0, 0.7);
+    animation: compassPulse 0.5s infinite;
+}
+@keyframes compassPulse {
+    0% { box-shadow: 0 0 10px rgba(255,0,0,0.4); }
+    50% { box-shadow: 0 0 25px rgba(255,0,0,0.8); }
+    100% { box-shadow: 0 0 10px rgba(255,0,0,0.4); }
+}
+#compassArrow {
+    font-size: 1.6rem;
+    color: #ff4444;
+    transition: transform 0.15s ease-out;
+    line-height: 1;
+}
+#compassLabel {
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: #ff6666;
+    letter-spacing: 2px;
+    margin-top: 2px;
+}
+#compassDist {
+    font-size: 0.65rem;
+    color: #ffaaaa;
+    margin-top: 1px;
+}
+
+/* Enemy Alert */
+#enemyAlert {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3rem;
+    font-weight: 900;
+    padding: 8px 20px;
+    border-radius: 5px;
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    text-align: center;
+    white-space: nowrap;
+}
+#enemyAlert.warning {
+    color: #ffaa00;
+    background: rgba(255, 170, 0, 0.15);
+    border: 1px solid rgba(255, 170, 0, 0.3);
+}
+#enemyAlert.danger {
+    color: #ff2222;
+    background: rgba(255, 0, 0, 0.15);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    animation: dangerPulse 0.6s infinite;
+}
+@keyframes dangerPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Hidden Status */
+#hiddenStatus {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #32cd32;
+    background: rgba(0, 80, 0, 0.4);
+    padding: 8px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(50, 205, 50, 0.4);
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* Interaction Prompt */
+#interactionPrompt {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 2px solid #fff;
+    z-index: 5;
+    animation: pulsePrompt 1.5s infinite;
+}
+@keyframes pulsePrompt {
+    0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+    50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+}
+
+/* Seed Display */
+#seedDisplay {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+h1, h2 {
+    color: #ffaa00;
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+    font-size: 4rem;
+    margin-bottom: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #eee;
+    margin-bottom: 2rem;
+    text-align: center;
+    max-width: 600px;
+}
+
+button {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Outfit', sans-serif;
+    color: #fff;
+    background: linear-gradient(45deg, #228b22, #32cd32);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(50, 205, 50, 0.5);
+    transition: transform 0.2s, background 0.2s;
+    margin: 5px;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #32cd32, #3cb371);
+}
+
+.riddle-choice-btn {
+    background: #333;
+    box-shadow: none;
+    border: 2px solid #555;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.riddle-choice-btn:hover {
+    background: #444;
+    border-color: #ffaa00;
+}
+
+#riddleInputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    width: 350px;
+}
+
+#riddleInput {
+    padding: 15px;
+    font-size: 1.2rem;
+    font-family: 'Outfit', sans-serif;
+    border: 2px solid #ffaa00;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+#riddleInput:focus {
+    border-color: #fff;
+}
+
+#riddleTimer {
+    color: #ff3333;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.warning-text {
+    color: #ff3333;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+#riddleFeedback {
+    color: #ffaa00;
+    font-weight: bold;
+    min-height: 1.5rem;
+}
